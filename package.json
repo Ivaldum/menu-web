@@ -9,7 +9,8 @@
   "scripts": {
     "dev": "npm run dev --workspace=packages/frontend & npm run dev --workspace=packages/backend",
     "build": "npm run build --workspace=packages/frontend && npm run build --workspace=packages/backend",
-    "start": "npm run start --workspace=packages/backend"
+    "start": "npm run start --workspace=packages/backend",
+    "create-admin": "ts-node src/scripts/createAdmin.ts"
   },
   "keywords": [],
   "author": "",
