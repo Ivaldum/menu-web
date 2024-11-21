@@ -1,20 +1,21 @@
 import { Request, Response } from 'express';
 import Product, { IProduct } from '../models/Product';
 
-export const getAllProducts = async (req: Request, res: Response) => {
+export const getAllProducts = async (req: Request, res: Response): Promise<void> => {
   try {
-    const products = await Product.find().populate('category');
+    const products: IProduct[] = await Product.find().populate('category');
     res.json(products);
   } catch (error) {
     res.status(500).json({ message: 'Error al obtener productos', error });
   }
 };
 
-export const getProductById = async (req: Request, res: Response) => {
+export const getProductById = async (req: Request, res: Response): Promise<void> => {
   try {
-    const product = await Product.findById(req.params.id).populate('category');
+    const product: IProduct | null = await Product.findById(req.params.id).populate('category');
     if (!product) {
-      return res.status(404).json({ message: 'Producto no encontrado' });
+      res.status(404).json({ message: 'Producto no encontrado' });
+      return;
     }
     res.json(product);
   } catch (error) {
@@ -22,21 +23,22 @@ export const getProductById = async (req: Request, res: Response) => {
   }
 };
 
-export const createProduct = async (req: Request, res: Response) => {
+export const createProduct = async (req: Request, res: Response): Promise<void> => {
   try {
     const newProduct: IProduct = new Product(req.body);
-    const savedProduct = await newProduct.save();
+    const savedProduct: IProduct = await newProduct.save();
     res.status(201).json(savedProduct);
   } catch (error) {
     res.status(400).json({ message: 'Error al crear el producto', error });
   }
 };
 
-export const updateProduct = async (req: Request, res: Response) => {
+export const updateProduct = async (req: Request, res: Response): Promise<void> => {
   try {
-    const updatedProduct = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const updatedProduct: IProduct | null = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!updatedProduct) {
-      return res.status(404).json({ message: 'Producto no encontrado' });
+      res.status(404).json({ message: 'Producto no encontrado' });
+      return;
     }
     res.json(updatedProduct);
   } catch (error) {
@@ -44,11 +46,12 @@ export const updateProduct = async (req: Request, res: Response) => {
   }
 };
 
-export const deleteProduct = async (req: Request, res: Response) => {
+export const deleteProduct = async (req: Request, res: Response): Promise<void> => {
   try {
-    const deletedProduct = await Product.findByIdAndDelete(req.params.id);
+    const deletedProduct: IProduct | null = await Product.findByIdAndDelete(req.params.id);
     if (!deletedProduct) {
-      return res.status(404).json({ message: 'Producto no encontrado' });
+      res.status(404).json({ message: 'Producto no encontrado' });
+      return;
     }
     res.json({ message: 'Producto eliminado exitosamente' });
   } catch (error) {
