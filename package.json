@@ -1,0 +1,17 @@
+{
+  "name": "menu-restaurante",
+  "version": "1.0.0",
+  "description": "Aplicación de menú para restaurantes y bares",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace=packages/frontend & npm run dev --workspace=packages/backend",
+    "build": "npm run build --workspace=packages/frontend && npm run build --workspace=packages/backend",
+    "start": "npm run start --workspace=packages/backend"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
